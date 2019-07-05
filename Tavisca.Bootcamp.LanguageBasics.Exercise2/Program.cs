@@ -2,7 +2,7 @@
 
 namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 {
-    public static class Program
+    public static class ForumPostEasy
     {
         static void Main(string[] args)
         {
@@ -24,7 +24,48 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
         public static string GetCurrentTime(string[] exactPostTime, string[] showPostTime)
         {
             // Add your code here.
-            throw new NotImplementedException();
+            for (int i = 0; i < exactPostTime.Length; i++)
+            {
+                for (int j = i + 1; j < exactPostTime.Length; j++)
+                {
+                    if (exactPostTime[i] == exactPostTime[j] && showPostTime[i] != showPostTime[j])
+                        return "impossible";
+                }
+            }
+            var ResultString = new string[exactPostTime.Length];
+            for (int i = 0; i < exactPostTime.Length; i++)
+            {
+                DateTime datetime = Convert.ToDateTime(exactPostTime[i]);
+
+                if (showPostTime[i].Contains("seconds"))
+                {
+                    ResultString[i] = exactPostTime[i];
+
+                }
+                else if (showPostTime[i].Contains("minutes"))
+                {
+                    string minutes = showPostTime[i].Split(" ")[0];
+                    DateTime NewDateTime = datetime.AddMinutes(int.Parse(minutes));
+                    string time = NewDateTime.ToString("HH:mm:ss");
+                    ResultString[i] = time;
+                }
+                else if (showPostTime[i].Contains("hours"))
+                {
+                    string hour = showPostTime[i].Split(" ")[0];
+                    DateTime NewDateTime = datetime.AddHours(int.Parse(hour));
+                    string time = NewDateTime.ToString("HH:mm:ss");
+                    ResultString[i] = time;
+                }
+                else
+                {
+                    ResultString[i] = "error";
+                }
+
+            }
+            Array.Sort(ResultString);
+            Array.Reverse(ResultString);
+
+            return ResultString[0];
         }
     }
 }
